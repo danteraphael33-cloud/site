@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Damtec - Portfólio de Serviços</title>
+    <!-- Inclui o Tailwind CSS para o estilo responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para a barra de topo */
+        .top-bar {
+            background-color: #111827; /* Cinza escuro/preto */
+            color: white;
+        }
+        /* Estilo para o spinner de carregamento */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .main-tab-content {
+            display: none;
+        }
+        .main-tab-content.active {
+            display: block;
+        }
+        .main-tab-button.active {
+            background-color: #1f2937;
+            border-bottom: 2px solid #3b82f6;
+            color: white;
+        }
+        .sub-tab-content {
+            display: none;
+        }
+        .sub-tab-content.active {
+            display: block;
+        }
+        .sub-tab-card.active {
+            box-shadow: 0 0 0 2px #3b82f6;
+            border-color: #3b82f6;
+            background-color: #1f2937;
+        }
+        /* Estilo para o modal de erro e sucesso personalizado */
+        .message-modal {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(120%);
+        }
+        .message-modal.show {
+            transform: translateX(0);
+        }
+        .message-modal.error {
+            background-color: #dc2626; /* Cor vermelha para erros */
+            color: white;
+        }
+        .message-modal.success {
+            background-color: #10b981; /* Cor verde para sucesso */
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <!-- Modal de erro/sucesso personalizado (oculto por padrão) -->
+    <div id="status-message" class="message-modal">
+        <p id="message-text"></p>
+    </div>
+
+    <header class="top-bar py-4 px-6 shadow-lg flex items-center justify-between">
+        <div class="flex items-center">
+            <svg class="h-10 w-10 mr-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 22h20L12 2zm0 13l-4-8h8l-4 8z"/>
+            </svg>
+            <h1 class="text-3xl font-bold">Damtec</h1>
+        </div>
+        <div class="text-right">
+            <h2 class="text-lg text-gray-400">Serviços de Tecnologia</h2>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 md:p-12">
+        <!-- Botões de abas principais -->
+        <div role="tablist" class="flex flex-wrap border-b border-gray-700 mb-6">
+            <button role="tab" onclick="showMainTab('home-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
+                Início
+            </button>
+            <button role="tab" onclick="showMainTab('services-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
+                Nossos Serviços
+            </button>
+            <button role="tab" onclick="showMainTab('expertise-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
+                Nossa Expertise
+            </button>
+            <button role="tab" onclick="showMainTab('quote-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
+                Solicite seu Orçamento
+            </button>
+        </div>
+
+        <!-- Conteúdo das abas principais -->
+        <div id="home-tab" class="main-tab-content active">
+            <section class="bg-gray-800 p-8 rounded-xl shadow-lg mb-10 flex flex-col md:flex-row items-center gap-8">
+                <img src="https://placehold.co/600x400/1e293b/a5b4fc?text=Tecnologia+e+Inovação" alt="Imagem de um ambiente de tecnologia" class="w-full md:w-1/2 rounded-lg shadow-md">
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-extrabold text-gray-100 mb-4">Conectando seu Negócio ao Futuro</h2>
+                    <p class="text-lg leading-relaxed text-gray-300">
+                        Fundada em 2016, a Damtec está completando 10 anos de excelência no mercado. Oferecemos soluções tecnológicas completas para o seu negócio, garantindo segurança, eficiência e crescimento. Somos especialistas em infraestrutura de TI, do cabeamento à segurança digital, com ótimas soluções e preços compatíveis com o mercado.
+                    </p>
+                    <!-- Resumo executivo gerado automaticamente pela IA -->
+                    <p id="summary-output" class="text-base text-gray-300 mt-6 text-left"></p>
+                </div>
+            </section>
+        </div>
+
+        <div id="services-tab" class="main-tab-content">
+            <section class="bg-gray-800 p-8 rounded-xl shadow-lg mb-10">
+                <h2 class="text-4xl font-extrabold text-gray-100 mb-4">Nossos Serviços</h2>
+                <p class="text-lg leading-relaxed text-gray-300 mb-8">
+                    Na Damtec, oferecemos um portfólio completo de soluções de tecnologia para infraestrutura, segurança e conectividade. Nossa abordagem integrada garante que sua empresa esteja sempre à frente, com desempenho otimizado e proteção total.
+                </p>
+                <div class="w-full mb-6">
+                    <img src="https://placehold.co/900x300/1f2937/a5b4fc?text=Soluções+Integradas" alt="Imagem de soluções integradas" class="w-full rounded-lg shadow-md">
+                </div>
+
+                <!-- Cards de serviços -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <button role="tab" onclick="showSubTab('sub-tab1')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Cabeamento Estruturado -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11 20H4a2 2 0 01-2-2V6a2 2 0 012-2h7a2 2 0 012 2v12a2 2 0 01-2 2zm-1-8a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2zm-3-5a1 1 0 100-2 1 1 0 000 2zM9 13a1 1 0 100-2 1 1 0 000 2zM7 13a1 1 0 100-2 1 1 0 000 2zM15 13a1 1 0 100-2 1 1 0 000 2zM17 13a1 1 0 100-2 1 1 0 000 2zM20 7H13V6h7V4H13V3H11v1a1 1 0 002 0v1h7v2h-7v1h7a2 2 0 012 2v6a2 2 0 01-2 2H13v-1h7v-2h-7v-1h7a2 2 0 012 2v1a1 1 0 00-2 0V18a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h7V2a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h7V2zM11 6a1 1 0 01-2 0V4a1 1 0 012 0v2zm0 14a1 1 0 01-2 0v-2a1 1 0 012 0v2z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Cabeamento Estruturado</h3>
+                                <p class="text-sm text-gray-400">A fundação para uma comunicação de alta performance.</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button role="tab" onclick="showSubTab('sub-tab2')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Redes -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12v1H18v-1h4zM2 13h4v-1H2v1zM11 13h2v-1h-2v1zM9 11v2H7v-2h2zM15 11v2h-2v-2h2zM21 11v2h-2v-2h2zM3 5v2h2v-2H3zM21 5v2h-2v-2h2zM9 5v2H7v-2h2zM15 5v2h-2v-2h2zM5 18v2H3v-2h2zM11 18v2h-2v-2h2zM17 18v2h-2v-2h2zM21 18v2h-2v-2h2zM12 2L6 5h12L12 2zm0 19l6-3H6l6 3z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Redes</h3>
+                                <p class="text-sm text-gray-400">Conectividade inteligente e otimizada para o seu negócio.</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button role="tab" onclick="showSubTab('sub-tab3')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Segurança Digital -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 6v12l10 4 10-4V6L12 2zm0 2.236L19.536 7.42V17.06L12 20.764L4.464 17.06V7.42L12 4.236zm0 2.764l5 2.5-5 2.5-5-2.5 5-2.5zm-5 4.5l5 2.5v7l-5-2.5v-7zm10 0l-5 2.5v7l5-2.5v-7z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Segurança Digital</h3>
+                                <p class="text-sm text-gray-400">Blindagem completa contra ameaças cibernéticas.</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button role="tab" onclick="showSubTab('sub-tab4')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Controle de Acesso -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2a8 8 0 00-8 8h16a8 8 0 00-8-8zM12 4a2 2 0 110 4 2 2 0 010-4zM4.18 19.18A6 6 0 0112 16a6 6 0 017.82 3.18L20.89 21H3.11l1.07-1.82z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Controle de Acesso</h3>
+                                <p class="text-sm text-gray-400">Gerenciamento físico seguro e automatizado.</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button role="tab" onclick="showSubTab('sub-tab5')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Câmeras -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM17 9.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm-2.5 0a.5.5 0 10-1 0 .5.5 0 001 0zM12 14c-2.33 0-4.4 1.35-5.5 3.32.9.89 2.08 1.48 3.5 1.68V16c0-1.66 1.34-3 3-3s3 1.34 3 3v2.01c1.42-.2 2.6-1.78 3.5-2.69-1.1-1.97-3.17-3.32-5.5-3.32z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Câmeras (CFTV)</h3>
+                                <p class="text-sm text-gray-400">Monitoramento de alta resolução e análise inteligente.</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button role="tab" onclick="showSubTab('sub-tab6')" class="sub-tab-card p-6 bg-gray-700 rounded-lg border border-gray-600 transition-all duration-200 hover:border-blue-500 hover:bg-gray-600 focus:outline-none">
+                        <div class="flex items-center space-x-4">
+                            <!-- Ícone para Suporte Técnico -->
+                            <svg class="w-12 h-12 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/></svg>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-100">Suporte Técnico</h3>
+                                <p class="text-sm text-gray-400">Garantia de disponibilidade e operação contínua.</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Conteúdo detalhado das sub-abas -->
+                <div id="sub-tab1" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">1. Cabeamento Estruturado</h3>
+                    <p class="text-base text-gray-300 mt-4">Uma infraestrutura de cabeamento bem planejada e executada é o alicerce para a comunicação e o fluxo de dados do seu negócio. Nossos projetos de cabeamento estruturado seguem as normas mais rigorosas do mercado (EIA/TIA), garantindo não apenas a conectividade, mas também a escalabilidade, segurança e longevidade da sua rede. Realizamos a instalação de cabeamento metálico (Cat6, Cat6A) e fibra óptica, organização meticulosa de racks, certificação de pontos de rede e identificação completa da infraestrutura, eliminando problemas de lentidão e interrupção. O resultado é uma base robusta e de alta performance, pronta para suportar o crescimento da sua empresa, do tráfego de dados à telefonia IP e sistemas de vídeo.</p>
+                </div>
+                
+                <div id="sub-tab2" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">2. Redes</h3>
+                    <p class="text-base text-gray-300 mt-4">Vamos além da simples instalação de cabos, projetando, implementando e gerenciando arquiteturas de rede inteligentes e seguras. Nossos especialistas trabalham com redes locais (LAN) e redes sem fio (Wi-Fi) de alta velocidade, utilizando equipamentos de última geração como switches, roteadores e firewalls para otimizar o fluxo de dados e proteger o ambiente. A configuração de VLANs (Virtual LANs) nos permite segmentar a rede, isolando departamentos e aumentando a segurança. Nossa expertise visa melhorar a comunicação interna, o acesso à internet e a colaboração, elevando a produtividade da sua equipe de forma significativa e garantindo a estabilidade operacional.</p>
+                </div>
+
+                <div id="sub-tab3" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">3. Segurança Digital</h3>
+                    <p class="text-base text-gray-300 mt-4">Em um mundo de ameaças digitais crescentes, a proteção dos seus ativos e dados é fundamental. Oferecemos soluções de segurança digital multicamadas, que incluem a implementação de firewalls robustos para filtrar o tráfego e bloquear acessos não autorizados, sistemas de detecção e prevenção de intrusão (IDS/IPS) para monitorar e reagir a atividades suspeitas em tempo real, e a criação de estratégias de backup e recuperação de desastres. Nossos serviços garantem a blindagem da sua empresa contra ataques cibernéticos, como malware, ransomware e phishing, assegurando a continuidade dos negócios e a conformidade com as regulamentações de proteção de dados.</p>
+                </div>
+                
+                <div id="sub-tab4" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">4. Controle de Acesso e Biometrias</h3>
+                    <p class="text-base text-gray-300 mt-4">Garanta a segurança física do seu ambiente com nossos sistemas de controle de acesso de última geração. Implementamos soluções completas que utilizam tecnologias como biometria (impressão digital e facial), cartões de proximidade, tags RFID e senhas. Nossos sistemas permitem o controle preciso da entrada e saída de pessoas, restringindo o acesso a áreas sensíveis e gerando relatórios detalhados de presença e circulação. A instalação de catracas eletrônicas, fechaduras inteligentes e leitores de acesso garante um gerenciamento seguro, automatizado e eficiente, ideal para empresas, condomínios e instituições que exigem o mais alto nível de controle.</p>
+                </div>
+                
+                <div id="sub-tab5" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">5. Câmeras de Segurança (CFTV)</h3>
+                    <p class="text-base text-gray-300 mt-4">Nossos projetos de CFTV (Circuito Fechado de Televisão) são desenvolvidos para oferecer monitoramento completo e inteligente do seu patrimônio. Trabalhamos com a mais alta tecnologia em câmeras, incluindo modelos IP de alta definição (HD, Full HD e 4K), que proporcionam imagens nítidas e detalhadas. Nossos sistemas permitem o monitoramento remoto em tempo real através de smartphones e computadores, além de contar com recursos avançados de análise de vídeo, como detecção de movimento, identificação de objetos e contagem de pessoas. Garantimos não apenas a inibição de ações criminosas, mas também um registro visual confiável e uma ferramenta poderosa para a gestão de segurança do seu espaço, 24 horas por dia.</p>
+                </div>
+                
+                <div id="sub-tab6" class="sub-tab-content">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-2">6. Suporte Técnico e Manutenção</h3>
+                    <p class="text-base text-gray-300 mt-4">Manter sua infraestrutura de TI sempre em pleno funcionamento é a nossa prioridade. Oferecemos serviços de suporte técnico e manutenção especializados para garantir a máxima disponibilidade e desempenho dos seus sistemas. Nossa equipe técnica é capacitada para realizar manutenção preventiva, identificando e corrigindo potenciais problemas antes que se tornem críticas, e manutenção corretiva, solucionando rapidamente falhas em servidores, estações de trabalho, equipamentos de rede e software. Com nosso suporte, sua empresa minimiza o tempo de inatividade, maximiza a eficiência operacional e garante que todos os sistemas operem de forma contínua e segura, permitindo que você se concentre no que realmente importa: o crescimento do seu negócio.</p>
+                </div>
+                
+            </section>
+        </div>
+
+        <div id="expertise-tab" class="main-tab-content">
+            <section class="mt-12 bg-gray-800 p-8 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-8">
+                <img src="https://placehold.co/600x400/1e293b/a5b4fc?text=Nossa+Experiência" alt="Imagem de um painel de controle" class="w-full md:w-1/2 rounded-lg shadow-md order-1 md:order-2">
+                <div class="md:w-1/2 order-2 md:order-1">
+                    <h3 class="text-2xl font-bold text-gray-100 mb-4">Nossa Expertise</h3>
+                    <p class="text-lg leading-relaxed text-gray-300">
+                        Nossa vasta experiência em projetos para grandes instituições financeiras como BV, Bradesco e Itaú nos capacita a ser uma empresa multifuncional. Essa expertise nos permite atender com excelência desde a alta demanda e os rigorosos padrões de segurança de grandes bancos até as necessidades específicas de condomínios de alto padrão, como o Zyz by Kallas no centro de São Paulo.
+                    </p>
+                </div>
+            </section>
+            
+            <section class="bg-gray-800 p-8 rounded-xl shadow-lg mt-8">
+                <h3 class="text-2xl font-bold text-gray-100 mb-6">Nossos Projetos</h3>
+                <!-- Container dos cards de projetos -->
+                <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+
+                    <!-- Card para o projeto Itau -->
+                    <div class="bg-gray-700 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-semibold text-gray-100 mb-2">Projeto Itau</h4>
+                            <p class="text-gray-400">
+                                Um projeto de infraestrutura de redes bem-sucedido que garantiu a conectividade e segurança de dados do banco, otimizando o tráfego e o desempenho para atender aos altos padrões do setor financeiro.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                                    Saiba Mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card para o projeto Bradesco -->
+                    <div class="bg-gray-700 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-semibold text-gray-100 mb-2">Projeto Bradesco</h4>
+                            <p class="text-gray-400">
+                                Um grande esforço para modernizar a plataforma digital do cliente, implementando novas funcionalidades de segurança e ferramentas de gestão de investimentos.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                                    Saiba Mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card para o projeto ZYZ -->
+                    <div class="bg-gray-700 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-semibold text-gray-100 mb-2">Projeto ZYZ</h4>
+                            <p class="text-gray-400">
+                                Para o Zyz by Kallas, realizamos a implementação completa de controle de acesso facial, câmeras de segurança em todo o prédio e somos responsáveis pela gestão de toda a rede estruturada da empresa, garantindo segurança e conectividade de alto nível.
+                            </p>
+                            <div class="mt-4">
+                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                                    Saiba Mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <div id="quote-tab" class="main-tab-content">
+            <section class="mt-12 bg-gray-800 p-8 rounded-xl shadow-lg">
+                <div class="w-full mb-6">
+                    <img src="https://placehold.co/900x300/1f2937/a5b4fc?text=Solicite+seu+Orçamento" alt="" class="w-full rounded-lg shadow-md">
+                </div>
+                <h3 class="text-2xl font-bold text-gray-100 mb-4">Solicite seu Orçamento</h3>
+                <p class="text-lg leading-relaxed text-gray-300 mb-4">
+                    Preencha seus dados e descreva suas necessidades para receber um esboço de orçamento com uma estimativa de custo inicial.
+                </p>
+                <!-- Campos para nome, email e telefone -->
+                <div class="mb-4">
+                    <label for="client-name" class="block text-gray-300 mb-2">Seu Nome:</label>
+                    <input type="text" id="client-name" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="client-email" class="block text-gray-300 mb-2">Seu E-mail:</label>
+                    <input type="email" id="client-email" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <label for="client-phone" class="block text-gray-300 mb-2">Seu Telefone:</label>
+                    <input type="tel" id="client-phone" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="client-problem" class="block text-gray-300 mb-2">Descreva suas necessidades ou problema:</label>
+                    <textarea id="client-problem" rows="4" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label for="service-focus" class="block text-gray-300 mb-2">Foco da solução:</label>
+                    <select id="service-focus" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Cabeamento Estruturado">Cabeamento Estruturado</option>
+                        <option value="Redes">Redes</option>
+                        <option value="Segurança Digital">Segurança Digital</option>
+                        <option value="Controle de Acesso e Biometrias">Controle de Acesso e Biometrias</option>
+                        <option value="Câmeras de Segurança (CFTV)">Câmeras de Segurança (CFTV)</option>
+                        <option value="Suporte Técnico e Manutenção">Suporte Técnico e Manutenção</option>
+                    </select>
+                </div>
+                <button onclick="generateProposalAndSendEmail()" id="generate-proposal-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+                    <span class="mr-2"><b>Gerar Orçamento</b></span>
+                </button>
+                <div id="proposal-output" class="bg-gray-700 p-6 rounded-lg mt-6 hidden">
+                    <h4 class="text-xl font-bold text-gray-100 mb-4">Proposta Gerada:</h4>
+                    <div id="proposal-content"></div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="mt-12 text-center">
+            <p class="text-xl font-bold text-gray-400">Entre em contato conosco!</p>
+            <p class="text-2xl font-extrabold text-gray-100 mt-2">Telefone: (11) 96892-6608</p>
+            <p class="text-lg font-bold text-gray-400 mt-1">Email: damtecservicostecnologia@gmail.com</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Função para mostrar a mensagem de status (erro ou sucesso)
+        function showStatusMessage(message, type) {
+            const statusDiv = document.getElementById('status-message');
+            const messageText = document.getElementById('message-text');
+            
+            messageText.textContent = message;
+            statusDiv.classList.remove('error', 'success');
+            statusDiv.classList.add(type);
+            statusDiv.classList.add('show');
+
+            setTimeout(() => {
+                statusDiv.classList.remove('show');
+            }, 5000); // Oculta a mensagem após 5 segundos
+        }
+
+        // Função para alternar entre as abas principais
+        function showMainTab(tabId) {
+            document.querySelectorAll('.main-tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.main-tab-content').forEach(content => content.classList.remove('active'));
+            
+            const selectedTabButton = document.querySelector(`[onclick="showMainTab('${tabId}')"]`);
+            if (selectedTabButton) {
+                selectedTabButton.classList.add('active');
+            }
+            const selectedTabContent = document.getElementById(tabId);
+            if (selectedTabContent) {
+                selectedTabContent.classList.add('active');
+            }
+            
+            // Ativar a primeira sub-aba ao entrar na aba "Nossos Serviços"
+            if (tabId === 'services-tab') {
+                showSubTab('sub-tab1');
+            }
+        }
+        
+        // Função para alternar entre as abas de serviço
+        function showSubTab(tabId) {
+            document.querySelectorAll('.sub-tab-card').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.sub-tab-content').forEach(content => content.classList.remove('active'));
+
+            const selectedTabButton = document.querySelector(`[onclick="showSubTab('${tabId}')"]`);
+            if (selectedTabButton) {
+                selectedTabButton.classList.add('active');
+            }
+            const selectedTabContent = document.getElementById(tabId);
+            if (selectedTabContent) {
+                selectedTabContent.classList.add('active');
+            }
+        }
+
+        async function loadSummary() {
+            const outputDiv = document.getElementById('summary-output');
+            outputDiv.innerHTML = '<div class="flex items-center"><div class="spinner mr-2"></div><span>Gerando resumo...</span></div>';
+
+            const prompt = `Gere um resumo conciso e persuasivo de 100 palavras para a empresa Damtec Serviços de Tecnologia, focando em sua proposta de valor. Mencione os principais serviços (Cabeamento Estruturado, Redes, Segurança Digital, Controle de Acesso e Biometrias, Câmeras de Segurança e Suporte Técnico) e destaque a vasta experiência da empresa com grandes instituições financeiras como BV, Bradesco e Itaú, bem como em condomínios de alto padrão. O resumo deve servir como uma "apresentação de elevador" impactante.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            let response;
+            let retries = 0;
+            const maxRetries = 5;
+            let delay = 1000;
+
+            while (retries < maxRetries) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        retries++;
+                        delay *= 2;
+                        await new Promise(res => setTimeout(res, delay));
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        outputDiv.innerHTML = `${text}`;
+                    } else {
+                        outputDiv.innerHTML = `Desculpe, não foi possível gerar o resumo.`;
+                    }
+                    break;
+
+                } catch (error) {
+                    console.error('Erro ao chamar a API:', error);
+                    outputDiv.innerHTML = `Ocorreu um erro ao gerar o resumo.`;
+                    break;
+                }
+            }
+        }
+        
+        // Ativa a primeira aba principal ao carregar a página
+        window.onload = () => {
+            showMainTab('home-tab');
+            loadSummary();
+        };
+
+        // Função principal para gerar a proposta e simular o envio de e-mail
+        async function generateProposalAndSendEmail() {
+            const clientName = document.getElementById('client-name').value;
+            const clientEmail = document.getElementById('client-email').value;
+            const clientPhone = document.getElementById('client-phone').value;
+            const problem = document.getElementById('client-problem').value;
+            const service = document.getElementById('service-focus').value;
+            const outputDiv = document.getElementById('proposal-output');
+            const outputContent = document.getElementById('proposal-content');
+            const button = document.getElementById('generate-proposal-btn');
+
+            // Validação dos campos obrigatórios
+            if (!clientName || !clientEmail || !clientPhone || !problem) {
+                showStatusMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
+
+            button.innerHTML = '<div class="spinner"></div>';
+            button.disabled = true;
+            outputContent.innerHTML = '';
+            outputDiv.classList.add('hidden');
+
+            const prompt = `Você é Dante Reis, consultor técnico da Damtec Serviços de Tecnologia. Um cliente chamado ${clientName}, com email ${clientEmail} e telefone ${clientPhone}, precisa de uma proposta de orçamento para o seguinte problema/necessidade: "${problem}". A solução deve ser focada no serviço de "${service}".
+
+Gere uma proposta de solução concisa e profissional, em português, com as seguintes seções em negrito:
+- **Análise da Necessidade:** Descreva a necessidade de forma resumida, baseado no input.
+- **Solução Sugerida:** Apresente a solução de forma clara, utilizando o serviço selecionado.
+- **Benefícios Esperados:** Liste os principais benefícios que o cliente terá ao implementar a solução.
+- **Estimativa de Custo Inicial:** Forneça uma estimativa de custo inicial de forma simulada. Por exemplo, "R$ 150,00 a R$ 250,00 por ponto de rede" para cabeamento, ou "R$ 3.000,00 a R$ 8.000,00" para segurança digital. Lembre-se de sempre adicionar uma ressalva que o valor final depende da análise técnica no local. Use valores monetários fictícios, mas realistas.
+- **Próximos Passos:** Sugira o que o cliente deve fazer a seguir para iniciar o projeto.
+- **Consultor Responsável:** Dante Reis.
+
+O texto deve ser formal, direto e focado em agregar valor para o cliente. Use quebras de linha para separar os parágrafos dentro de cada seção.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            let response;
+            let retries = 0;
+            const maxRetries = 5;
+            let delay = 1000;
+
+            while (retries < maxRetries) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        retries++;
+                        delay *= 2;
+                        await new Promise(res => setTimeout(res, delay));
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
+                        outputContent.innerHTML = `<p>${text}</p>`;
+                        outputDiv.classList.remove('hidden');
+
+                        // Simulação do envio do e-mail para o cliente e para a empresa
+                        console.log(`Simulação de envio de e-mail para o cliente: ${clientEmail}`);
+                        console.log(`Simulação de envio de e-mail para a empresa: damtecservicostecnologia@gmail.com`);
+                        console.log('Dados do orçamento:', { clientName, clientEmail, clientPhone, problem, service });
+                        
+                        showStatusMessage('Proposta gerada e dados enviados com sucesso!', 'success');
+                    } else {
+                        outputContent.innerHTML = `<p class="text-red-400">Desculpe, não foi possível gerar a proposta. Tente novamente.</p>`;
+                        outputDiv.classList.remove('hidden');
+                    }
+                    break;
+
+                } catch (error) {
+                    console.error('Erro ao chamar a API:', error);
+                    showStatusMessage('Ocorreu um erro ao gerar a proposta. Por favor, tente novamente mais tarde.', 'error');
+                    break;
+                } finally {
+                    button.innerHTML = '<b>Gerar Orçamento</b>';
+                    button.disabled = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
