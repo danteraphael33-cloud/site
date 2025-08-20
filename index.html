@@ -16,19 +16,6 @@
             background-color: #111827; /* Cinza escuro/preto */
             color: white;
         }
-        /* Estilo para o spinner de carregamento */
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #fff;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
         .main-tab-content {
             display: none;
         }
@@ -51,37 +38,9 @@
             border-color: #3b82f6;
             background-color: #1f2937;
         }
-        /* Estilo para o modal de erro e sucesso personalizado */
-        .message-modal {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(120%);
-        }
-        .message-modal.show {
-            transform: translateX(0);
-        }
-        .message-modal.error {
-            background-color: #dc2626; /* Cor vermelha para erros */
-            color: white;
-        }
-        .message-modal.success {
-            background-color: #10b981; /* Cor verde para sucesso */
-            color: white;
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200">
-
-    <!-- Modal de erro/sucesso personalizado (oculto por padrão) -->
-    <div id="status-message" class="message-modal">
-        <p id="message-text"></p>
-    </div>
 
     <header class="top-bar py-4 px-6 shadow-lg flex items-center justify-between">
         <div class="flex items-center">
@@ -107,9 +66,6 @@
             <button role="tab" onclick="showMainTab('expertise-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
                 Nossa Expertise
             </button>
-            <button role="tab" onclick="showMainTab('quote-tab')" class="main-tab-button flex-1 py-3 px-4 text-sm font-medium text-center text-gray-300 hover:text-white hover:bg-gray-700 transition-colors duration-200">
-                Solicite seu Orçamento
-            </button>
         </div>
 
         <!-- Conteúdo das abas principais -->
@@ -121,8 +77,7 @@
                     <p class="text-lg leading-relaxed text-gray-300">
                         Fundada em 2016, a Damtec está completando 10 anos de excelência no mercado. Oferecemos soluções tecnológicas completas para o seu negócio, garantindo segurança, eficiência e crescimento. Somos especialistas em infraestrutura de TI, do cabeamento à segurança digital, com ótimas soluções e preços compatíveis com o mercado.
                     </p>
-                    <!-- Resumo executivo gerado automaticamente pela IA -->
-                    <p id="summary-output" class="text-base text-gray-300 mt-6 text-left"></p>
+                    <p class="text-base text-gray-300 mt-6 text-left">Com uma década de excelência, a Damtec é sua parceira em soluções de tecnologia. Especializados em infraestrutura de TI, oferecemos serviços completos de Cabeamento Estruturado, Redes, Segurança Digital, Controle de Acesso e Suporte Técnico. Nossa expertise em projetos para grandes instituições financeiras como Itaú e Bradesco, e em empreendimentos de alto padrão como o Zyz by Kallas, garante a entrega de soluções eficientes e seguras, focadas em conectar e proteger o seu negócio para o futuro.</p>
                 </div>
             </section>
         </div>
@@ -258,11 +213,6 @@
                             <p class="text-gray-400">
                                 Um projeto de infraestrutura de redes bem-sucedido que garantiu a conectividade e segurança de dados do banco, otimizando o tráfego e o desempenho para atender aos altos padrões do setor financeiro.
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
-                                    Saiba Mais
-                                </a>
-                            </div>
                         </div>
                     </div>
 
@@ -273,11 +223,6 @@
                             <p class="text-gray-400">
                                 Um grande esforço para modernizar a plataforma digital do cliente, implementando novas funcionalidades de segurança e ferramentas de gestão de investimentos.
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
-                                    Saiba Mais
-                                </a>
-                            </div>
                         </div>
                     </div>
 
@@ -288,62 +233,29 @@
                             <p class="text-gray-400">
                                 Para o Zyz by Kallas, realizamos a implementação completa de controle de acesso facial, câmeras de segurança em todo o prédio e somos responsáveis pela gestão de toda a rede estruturada da empresa, garantindo segurança e conectividade de alto nível.
                             </p>
-                            <div class="mt-4">
-                                <a href="#" class="inline-block bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
-                                    Saiba Mais
-                                </a>
-                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Novo Card para o projeto Senac -->
+                    <div class="bg-gray-700 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-semibold text-gray-100 mb-2">Projeto Senac</h4>
+                            <p class="text-gray-400">
+                                Um projeto complexo envolvendo cabeamento estruturado, redes, data center e missão crítica para garantir a operação e o desempenho.
+                            </p>
                         </div>
                     </div>
 
-                </div>
-            </section>
-        </div>
+                    <!-- Novo Card para os projetos Eletronuclear e Prodesp -->
+                    <div class="bg-gray-700 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-semibold text-gray-100 mb-2">Projetos Eletronuclear e Prodesp</h4>
+                            <p class="text-gray-400">
+                                Prestamos serviços de infraestrutura para a Eletronuclear em Angra 3, no Rio de Janeiro, e realizamos projetos de cabeamento estruturado na Prodesp, reforçando nossa capacidade de atuar em setores estratégicos.
+                            </p>
+                        </div>
+                    </div>
 
-        <div id="quote-tab" class="main-tab-content">
-            <section class="mt-12 bg-gray-800 p-8 rounded-xl shadow-lg">
-                <div class="w-full mb-6">
-                    <img src="https://placehold.co/900x300/1f2937/a5b4fc?text=Solicite+seu+Orçamento" alt="" class="w-full rounded-lg shadow-md">
-                </div>
-                <h3 class="text-2xl font-bold text-gray-100 mb-4">Solicite seu Orçamento</h3>
-                <p class="text-lg leading-relaxed text-gray-300 mb-4">
-                    Preencha seus dados e descreva suas necessidades para receber um esboço de orçamento com uma estimativa de custo inicial.
-                </p>
-                <!-- Campos para nome, email e telefone -->
-                <div class="mb-4">
-                    <label for="client-name" class="block text-gray-300 mb-2">Seu Nome:</label>
-                    <input type="text" id="client-name" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="client-email" class="block text-gray-300 mb-2">Seu E-mail:</label>
-                    <input type="email" id="client-email" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="client-phone" class="block text-gray-300 mb-2">Seu Telefone:</label>
-                    <input type="tel" id="client-phone" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                
-                <div class="mb-4">
-                    <label for="client-problem" class="block text-gray-300 mb-2">Descreva suas necessidades ou problema:</label>
-                    <textarea id="client-problem" rows="4" required class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="mb-6">
-                    <label for="service-focus" class="block text-gray-300 mb-2">Foco da solução:</label>
-                    <select id="service-focus" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="Cabeamento Estruturado">Cabeamento Estruturado</option>
-                        <option value="Redes">Redes</option>
-                        <option value="Segurança Digital">Segurança Digital</option>
-                        <option value="Controle de Acesso e Biometrias">Controle de Acesso e Biometrias</option>
-                        <option value="Câmeras de Segurança (CFTV)">Câmeras de Segurança (CFTV)</option>
-                        <option value="Suporte Técnico e Manutenção">Suporte Técnico e Manutenção</option>
-                    </select>
-                </div>
-                <button onclick="generateProposalAndSendEmail()" id="generate-proposal-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
-                    <span class="mr-2"><b>Gerar Orçamento</b></span>
-                </button>
-                <div id="proposal-output" class="bg-gray-700 p-6 rounded-lg mt-6 hidden">
-                    <h4 class="text-xl font-bold text-gray-100 mb-4">Proposta Gerada:</h4>
-                    <div id="proposal-content"></div>
                 </div>
             </section>
         </div>
@@ -357,21 +269,6 @@
     </main>
 
     <script>
-        // Função para mostrar a mensagem de status (erro ou sucesso)
-        function showStatusMessage(message, type) {
-            const statusDiv = document.getElementById('status-message');
-            const messageText = document.getElementById('message-text');
-            
-            messageText.textContent = message;
-            statusDiv.classList.remove('error', 'success');
-            statusDiv.classList.add(type);
-            statusDiv.classList.add('show');
-
-            setTimeout(() => {
-                statusDiv.classList.remove('show');
-            }, 5000); // Oculta a mensagem após 5 segundos
-        }
-
         // Função para alternar entre as abas principais
         function showMainTab(tabId) {
             document.querySelectorAll('.main-tab-button').forEach(btn => btn.classList.remove('active'));
@@ -407,165 +304,10 @@
             }
         }
 
-        async function loadSummary() {
-            const outputDiv = document.getElementById('summary-output');
-            outputDiv.innerHTML = '<div class="flex items-center"><div class="spinner mr-2"></div><span>Gerando resumo...</span></div>';
-
-            const prompt = `Gere um resumo conciso e persuasivo de 100 palavras para a empresa Damtec Serviços de Tecnologia, focando em sua proposta de valor. Mencione os principais serviços (Cabeamento Estruturado, Redes, Segurança Digital, Controle de Acesso e Biometrias, Câmeras de Segurança e Suporte Técnico) e destaque a vasta experiência da empresa com grandes instituições financeiras como BV, Bradesco e Itaú, bem como em condomínios de alto padrão. O resumo deve servir como uma "apresentação de elevador" impactante.`;
-
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-            const payload = { contents: chatHistory };
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            let response;
-            let retries = 0;
-            const maxRetries = 5;
-            let delay = 1000;
-
-            while (retries < maxRetries) {
-                try {
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.status === 429) {
-                        retries++;
-                        delay *= 2;
-                        await new Promise(res => setTimeout(res, delay));
-                        continue;
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text;
-                        outputDiv.innerHTML = `${text}`;
-                    } else {
-                        outputDiv.innerHTML = `Desculpe, não foi possível gerar o resumo.`;
-                    }
-                    break;
-
-                } catch (error) {
-                    console.error('Erro ao chamar a API:', error);
-                    outputDiv.innerHTML = `Ocorreu um erro ao gerar o resumo.`;
-                    break;
-                }
-            }
-        }
-        
         // Ativa a primeira aba principal ao carregar a página
         window.onload = () => {
             showMainTab('home-tab');
-            loadSummary();
         };
-
-        // Função principal para gerar a proposta e simular o envio de e-mail
-        async function generateProposalAndSendEmail() {
-            const clientName = document.getElementById('client-name').value;
-            const clientEmail = document.getElementById('client-email').value;
-            const clientPhone = document.getElementById('client-phone').value;
-            const problem = document.getElementById('client-problem').value;
-            const service = document.getElementById('service-focus').value;
-            const outputDiv = document.getElementById('proposal-output');
-            const outputContent = document.getElementById('proposal-content');
-            const button = document.getElementById('generate-proposal-btn');
-
-            // Validação dos campos obrigatórios
-            if (!clientName || !clientEmail || !clientPhone || !problem) {
-                showStatusMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
-                return;
-            }
-
-            button.innerHTML = '<div class="spinner"></div>';
-            button.disabled = true;
-            outputContent.innerHTML = '';
-            outputDiv.classList.add('hidden');
-
-            const prompt = `Você é Dante Reis, consultor técnico da Damtec Serviços de Tecnologia. Um cliente chamado ${clientName}, com email ${clientEmail} e telefone ${clientPhone}, precisa de uma proposta de orçamento para o seguinte problema/necessidade: "${problem}". A solução deve ser focada no serviço de "${service}".
-
-Gere uma proposta de solução concisa e profissional, em português, com as seguintes seções em negrito:
-- **Análise da Necessidade:** Descreva a necessidade de forma resumida, baseado no input.
-- **Solução Sugerida:** Apresente a solução de forma clara, utilizando o serviço selecionado.
-- **Benefícios Esperados:** Liste os principais benefícios que o cliente terá ao implementar a solução.
-- **Estimativa de Custo Inicial:** Forneça uma estimativa de custo inicial de forma simulada. Por exemplo, "R$ 150,00 a R$ 250,00 por ponto de rede" para cabeamento, ou "R$ 3.000,00 a R$ 8.000,00" para segurança digital. Lembre-se de sempre adicionar uma ressalva que o valor final depende da análise técnica no local. Use valores monetários fictícios, mas realistas.
-- **Próximos Passos:** Sugira o que o cliente deve fazer a seguir para iniciar o projeto.
-- **Consultor Responsável:** Dante Reis.
-
-O texto deve ser formal, direto e focado em agregar valor para o cliente. Use quebras de linha para separar os parágrafos dentro de cada seção.`;
-
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-            const payload = { contents: chatHistory };
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            let response;
-            let retries = 0;
-            const maxRetries = 5;
-            let delay = 1000;
-
-            while (retries < maxRetries) {
-                try {
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.status === 429) {
-                        retries++;
-                        delay *= 2;
-                        await new Promise(res => setTimeout(res, delay));
-                        continue;
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const text = result.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-                        outputContent.innerHTML = `<p>${text}</p>`;
-                        outputDiv.classList.remove('hidden');
-
-                        // Simulação do envio do e-mail para o cliente e para a empresa
-                        console.log(`Simulação de envio de e-mail para o cliente: ${clientEmail}`);
-                        console.log(`Simulação de envio de e-mail para a empresa: damtecservicostecnologia@gmail.com`);
-                        console.log('Dados do orçamento:', { clientName, clientEmail, clientPhone, problem, service });
-                        
-                        showStatusMessage('Proposta gerada e dados enviados com sucesso!', 'success');
-                    } else {
-                        outputContent.innerHTML = `<p class="text-red-400">Desculpe, não foi possível gerar a proposta. Tente novamente.</p>`;
-                        outputDiv.classList.remove('hidden');
-                    }
-                    break;
-
-                } catch (error) {
-                    console.error('Erro ao chamar a API:', error);
-                    showStatusMessage('Ocorreu um erro ao gerar a proposta. Por favor, tente novamente mais tarde.', 'error');
-                    break;
-                } finally {
-                    button.innerHTML = '<b>Gerar Orçamento</b>';
-                    button.disabled = false;
-                }
-            }
-        }
     </script>
 </body>
 </html>
